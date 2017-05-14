@@ -73,13 +73,13 @@
 	
 	var _CompanyHome = __webpack_require__(/*! ../src/containers/CompanyHome */ 292);
 	
-	var _PeopleHome = __webpack_require__(/*! ../src/containers/PeopleHome */ 307);
+	var _PeopleHome = __webpack_require__(/*! ../src/containers/PeopleHome */ 308);
 	
-	var _NoMatch = __webpack_require__(/*! ../src/containers/NoMatch */ 311);
+	var _NoMatch = __webpack_require__(/*! ../src/containers/NoMatch */ 313);
 	
-	var _Root = __webpack_require__(/*! ../src/containers/Root */ 314);
+	var _Root = __webpack_require__(/*! ../src/containers/Root */ 316);
 	
-	var _Welcome = __webpack_require__(/*! ../src/containers/Welcome */ 317);
+	var _Welcome = __webpack_require__(/*! ../src/containers/Welcome */ 319);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -123,6 +123,7 @@
 	          _react2.default.createElement(_reactRouter.Route, { path: 'companies', component: _CompanyHome.CompanyHome }),
 	          _react2.default.createElement(_reactRouter.Route, { path: 'companies/:companyid', component: _CompanyHome.CompanyHome }),
 	          _react2.default.createElement(_reactRouter.Route, { path: 'companies/:companyid/people', component: _PeopleHome.PeopleHome }),
+	          _react2.default.createElement(_reactRouter.Route, { path: 'companies/:companyid/people/:peopleid', component: _PeopleHome.PeopleHome }),
 	          _react2.default.createElement(_reactRouter.Route, { path: '*', component: _NoMatch.NoMatch })
 	        )
 	      );
@@ -32186,15 +32187,19 @@
 	    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {
 	        deleteCache: false,
 	        companies: [],
-	        currentCompanyIndex: 0
+	        currentCompanyId: null
 	    };
 	    var action = arguments[1];
 	
 	    switch (action.type) {
-	        case 'POPULATE_COMPANIES_FULFILLED':
+	        case 'GET_COMPANIES_FULFILLED':
 	            state = _extends({}, state, {
-	                companies: action.payload.companies,
-	                currentCompanyIndex: action.payload.currentCompanyIndex
+	                companies: action.payload.companies
+	            });
+	            break;
+	        case 'GET_COMPANY_FULFILLED':
+	            state = _extends({}, state, {
+	                currentCompanyId: action.payload.currentCompanyId
 	            });
 	            break;
 	        default:
@@ -32272,7 +32277,7 @@
 	
 	var _CompanyForm2 = _interopRequireDefault(_CompanyForm);
 	
-	var _home = __webpack_require__(/*! ../theme/home.scss */ 305);
+	var _home = __webpack_require__(/*! ../theme/home.scss */ 306);
 	
 	var _home2 = _interopRequireDefault(_home);
 	
@@ -32306,7 +32311,7 @@
 				console.log(this.props.params);
 	
 				if (this.props.params.companyid) {
-					companyView = _react2.default.createElement(_Company2.default, null);
+					companyView = _react2.default.createElement(_Company2.default, { 'data-id': this.props.params.companyid });
 				} else {
 					companyView = _react2.default.createElement(_Companies2.default, null);
 				}
@@ -32367,6 +32372,8 @@
 	
 	var _reactRedux = __webpack_require__(/*! react-redux */ 240);
 	
+	var _reactRouter = __webpack_require__(/*! react-router */ 182);
+	
 	var _companies = __webpack_require__(/*! ../../src/theme/companies.scss */ 294);
 	
 	var _companies2 = _interopRequireDefault(_companies);
@@ -32394,7 +32401,7 @@
 	    _createClass(Companies, [{
 	        key: 'componentWillMount',
 	        value: function componentWillMount() {
-	            this.props.populateCompanies();
+	            this.props.getCompanies();
 	        }
 	    }, {
 	        key: 'render',
@@ -32407,7 +32414,31 @@
 	                    'div',
 	                    { className: 'title' },
 	                    'Companies'
-	                )
+	                ),
+	                this.props.companiesState.companies.map(function (val, index) {
+	                    var companyPath = '/companies/' + val._id;
+	                    var peoplePath = '/companies/' + val._id + '/people';
+	                    var linkKey = 'link_key' + index;
+	                    return _react2.default.createElement(
+	                        'div',
+	                        { key: index, className: 'company' },
+	                        _react2.default.createElement(
+	                            _reactRouter.Link,
+	                            { to: companyPath, className: 'title', 'data-tsIndex': index, key: 'title' + index },
+	                            val.name
+	                        ),
+	                        _react2.default.createElement(
+	                            'div',
+	                            { key: index, className: 'address' },
+	                            val.address
+	                        ),
+	                        _react2.default.createElement(
+	                            _reactRouter.Link,
+	                            { key: linkKey, to: peoplePath, className: 'viewmore' },
+	                            'People who work here'
+	                        )
+	                    );
+	                })
 	            );
 	        }
 	    }]);
@@ -32423,15 +32454,15 @@
 	
 	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 	    return {
-	        populateCompanies: function populateCompanies() {
-	            dispatch((0, _CompanyActions.populateCompanies)());
+	        getCompanies: function getCompanies() {
+	            dispatch((0, _CompanyActions.getCompanies)());
 	        }
 	    };
 	};
 	
 	Companies.propTypes = {
 	    companiesState: _propTypes2.default.object.isRequired,
-	    populateCompanies: _propTypes2.default.func.isRequired
+	    getCompanies: _propTypes2.default.func.isRequired
 	};
 	
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Companies);
@@ -32477,7 +32508,7 @@
 	
 	
 	// module
-	exports.push([module.id, ".companies_container {\n  border: 1px solid lightgray;\n  border-radius: 5px; }\n  .companies_container .title {\n    font-size: 20px;\n    font-weight: bold;\n    background-color: lightgray;\n    padding: 20px;\n    margin-top: 0px; }\n", ""]);
+	exports.push([module.id, ".companies_container {\n  border: 1px solid lightgray;\n  border-radius: 5px; }\n  .companies_container .title {\n    font-size: 25px;\n    font-weight: bold;\n    background-color: lightgray;\n    padding: 20px;\n    margin-top: 0px; }\n  .companies_container .company {\n    margin: 20px;\n    border: 1px solid #d3d3d3;\n    border-radius: 5px; }\n    .companies_container .company .title {\n      font-size: 20px;\n      color: #4169e1;\n      display: block; }\n    .companies_container .company .address {\n      padding-left: 20px; }\n    .companies_container .company .viewmore {\n      font-size: 13px;\n      font-weight: bold;\n      background-color: lightgray;\n      display: block;\n      padding: 10px 0 10px 20px; }\n", ""]);
 	
 	// exports
 
@@ -32808,22 +32839,58 @@
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
-	exports.populateCompanies = populateCompanies;
-	var serverHost = ("http://localhost:3001");
+	exports.getCompanies = getCompanies;
+	exports.getCompany = getCompany;
+	exports.addNewCompany = addNewCompany;
 	
-	function populateCompanies() {
+	var _store = __webpack_require__(/*! ../store */ 281);
+	
+	var _store2 = _interopRequireDefault(_store);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var serverHost = ("http://localhost:3001");
+	function getCompanies() {
 	    return {
-	        type: 'POPULATE_COMPANIES',
+	        type: 'GET_COMPANIES',
 	        payload: new Promise(function (resolve, reject) {
-	            //setTimeout(() => {
-	            //resolve({'companies': [],'currentCompanyIndex':0});
-	            //}, 20);
 	            $.ajax({
 	                url: serverHost + '/companies',
 	                type: 'GET'
 	            }).done(function (response) {
 	                console.log(response);
-	                resolve({ 'companies': response, 'currentCompanyIndex': 0 });
+	                resolve({ 'companies': response });
+	            }).fail(function (failResponse) {});
+	        })
+	    };
+	}
+	
+	function getCompany(companyid) {
+	    return {
+	        type: 'GET_COMPANY',
+	        payload: new Promise(function (resolve, reject) {
+	            $.ajax({
+	                url: serverHost + '/companies/' + companyid,
+	                type: 'GET'
+	            }).done(function (response) {
+	                console.log(response);
+	                resolve({ 'currentCompanyId': response._id });
+	            }).fail(function (failResponse) {});
+	        })
+	    };
+	}
+	
+	function addNewCompany(company) {
+	    return {
+	        type: 'ADD_COMPANY',
+	        payload: new Promise(function (resolve, reject) {
+	            $.ajax({
+	                url: serverHost + '/companies',
+	                data: JSON.parse(company),
+	                type: 'POST'
+	            }).done(function (response) {
+	                console.log(response);
+	                resolve({ 'currentCompanyId': response._id });
 	            }).fail(function (failResponse) {});
 	        })
 	    };
@@ -32839,7 +32906,7 @@
 	'use strict';
 	
 	Object.defineProperty(exports, "__esModule", {
-			value: true
+	    value: true
 	});
 	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -32848,9 +32915,17 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
+	var _propTypes = __webpack_require__(/*! prop-types */ 185);
+	
+	var _propTypes2 = _interopRequireDefault(_propTypes);
+	
+	var _reactRedux = __webpack_require__(/*! react-redux */ 240);
+	
 	var _company = __webpack_require__(/*! ../theme/company.scss */ 300);
 	
 	var _company2 = _interopRequireDefault(_company);
+	
+	var _CompanyActions = __webpack_require__(/*! ../actions/CompanyActions */ 298);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -32858,37 +32933,74 @@
 	
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 	
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } // ES6 
+	
 	
 	var Company = function (_React$Component) {
-			_inherits(Company, _React$Component);
+	    _inherits(Company, _React$Component);
 	
-			function Company() {
-					_classCallCheck(this, Company);
+	    function Company() {
+	        _classCallCheck(this, Company);
 	
-					return _possibleConstructorReturn(this, (Company.__proto__ || Object.getPrototypeOf(Company)).apply(this, arguments));
-			}
+	        return _possibleConstructorReturn(this, (Company.__proto__ || Object.getPrototypeOf(Company)).apply(this, arguments));
+	    }
 	
-			_createClass(Company, [{
-					key: 'render',
-					value: function render() {
-							console.log('inside Company');
-							return _react2.default.createElement(
-									'div',
-									{ className: 'company_container' },
-									_react2.default.createElement(
-											'div',
-											{ className: 'title' },
-											'Company'
-									)
-							);
-					}
-			}]);
+	    _createClass(Company, [{
+	        key: 'componentWillMount',
+	        value: function componentWillMount() {
+	            this.props.getCompany(this.props['data-id']);
+	        }
+	    }, {
+	        key: 'render',
+	        value: function render() {
+	            console.log('inside Company');
+	            var thisObj = this;
+	            return _react2.default.createElement(
+	                'div',
+	                { className: 'company_container' },
+	                _react2.default.createElement(
+	                    'div',
+	                    { className: 'title' },
+	                    'Company'
+	                ),
+	                this.props.companiesState.companies.map(function (val, index) {
+	                    var companyPath = '/companies/' + val._id;
+	                    var peoplePath = '/companies/' + val._id + '/people';
+	                    var linkKey = 'link_key' + index;
+	                    if (val._id == thisObj.props.companiesState.currentCompanyId) {
+	                        return _react2.default.createElement('div', { key: index, className: 'company' });
+	                    } else {
+	                        return '';
+	                    }
+	                })
+	            );
+	        }
+	    }]);
 	
-			return Company;
+	    return Company;
 	}(_react2.default.Component);
 	
-	exports.default = Company;
+	var mapStateToProps = function mapStateToProps(state) {
+	    return {
+	        companiesState: state.companies
+	    };
+	};
+	
+	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+	    return {
+	        getCompany: function getCompany(id) {
+	            dispatch((0, _CompanyActions.getCompany)(id));
+	        }
+	    };
+	};
+	
+	Company.propTypes = {
+	    companiesState: _propTypes2.default.object.isRequired,
+	    getCompany: _propTypes2.default.func.isRequired,
+	    'data-id': _propTypes2.default.string.isRequired
+	};
+	
+	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Company);
 
 /***/ }),
 /* 300 */
@@ -32931,7 +33043,7 @@
 	
 	
 	// module
-	exports.push([module.id, ".company_container {\n  border: 1px solid lightgray;\n  border-radius: 5px; }\n  .company_container .title {\n    font-size: 20px;\n    font-weight: bold;\n    background-color: lightgray;\n    padding: 20px;\n    margin-top: 0px; }\n", ""]);
+	exports.push([module.id, ".company_container {\n  border: 1px solid lightgray;\n  border-radius: 5px; }\n  .company_container .title {\n    font-size: 25px;\n    font-weight: bold;\n    background-color: lightgray;\n    padding: 20px;\n    margin-top: 0px; }\n  .company_container .company {\n    margin: 20px;\n    border: 1px solid #d3d3d3;\n    border-radius: 5px; }\n    .company_container .company .title {\n      font-size: 20px;\n      color: #4169e1;\n      display: block; }\n    .company_container .company .address {\n      padding-left: 20px; }\n    .company_container .company .viewmore {\n      font-size: 13px;\n      font-weight: bold;\n      background-color: lightgray;\n      display: block;\n      padding: 10px 0 10px 20px; }\n", ""]);
 	
 	// exports
 
@@ -32946,7 +33058,7 @@
 	'use strict';
 	
 	Object.defineProperty(exports, "__esModule", {
-		value: true
+					value: true
 	});
 	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -32955,9 +33067,19 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
+	var _propTypes = __webpack_require__(/*! prop-types */ 185);
+	
+	var _propTypes2 = _interopRequireDefault(_propTypes);
+	
+	var _reactRedux = __webpack_require__(/*! react-redux */ 240);
+	
 	var _companyform = __webpack_require__(/*! ../../src/theme/companyform.scss */ 303);
 	
 	var _companyform2 = _interopRequireDefault(_companyform);
+	
+	var _CompanyActions = __webpack_require__(/*! ../actions/CompanyActions */ 298);
+	
+	var _PeopleActions = __webpack_require__(/*! ../actions/PeopleActions */ 305);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -32965,90 +33087,184 @@
 	
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 	
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } // ES6 
+	
 	
 	var CompanyForm = function (_React$Component) {
-		_inherits(CompanyForm, _React$Component);
+					_inherits(CompanyForm, _React$Component);
 	
-		function CompanyForm() {
-			_classCallCheck(this, CompanyForm);
+					function CompanyForm() {
+									_classCallCheck(this, CompanyForm);
 	
-			return _possibleConstructorReturn(this, (CompanyForm.__proto__ || Object.getPrototypeOf(CompanyForm)).apply(this, arguments));
-		}
+									return _possibleConstructorReturn(this, (CompanyForm.__proto__ || Object.getPrototypeOf(CompanyForm)).apply(this, arguments));
+					}
 	
-		_createClass(CompanyForm, [{
-			key: 'render',
-			value: function render() {
-				console.log('inside Company form');
-				return _react2.default.createElement(
-					'div',
-					{ className: 'company_form_container' },
-					_react2.default.createElement(
-						'div',
-						{ className: 'title' },
-						'Create new company'
-					),
-					_react2.default.createElement(
-						'fieldset',
-						null,
-						_react2.default.createElement(
-							'legend',
-							null,
-							'Name'
-						),
-						_react2.default.createElement('input', { type: 'text', id: 'name', placeholder: 'Enter name' }),
-						_react2.default.createElement(
-							'label',
-							{ htmlFor: 'radio' },
-							'Name is required!'
-						),
-						_react2.default.createElement(
-							'legend',
-							null,
-							'Address'
-						),
-						_react2.default.createElement('input', { type: 'text', id: 'address', placeholder: 'Enter address' }),
-						_react2.default.createElement(
-							'label',
-							{ htmlFor: 'radio' },
-							'Address is required!'
-						),
-						_react2.default.createElement(
-							'legend',
-							null,
-							'Revenue'
-						),
-						_react2.default.createElement('input', { type: 'text', id: 'revenue', placeholder: 'Enter revenue' }),
-						_react2.default.createElement(
-							'label',
-							{ htmlFor: 'radio' },
-							'Revenue is required!'
-						),
-						_react2.default.createElement(
-							'legend',
-							null,
-							'Phone number'
-						),
-						_react2.default.createElement('input', { type: 'text', id: 'phone', placeholder: 'Enter number' }),
-						_react2.default.createElement(
-							'label',
-							{ htmlFor: 'radio' },
-							'Number is required!'
-						),
-						_react2.default.createElement(
-							'button',
-							{ className: 'button is-submit', name: 'save' },
-							'Save'
-						)
-					)
-				);
-			}
-		}]);
+					_createClass(CompanyForm, [{
+									key: 'render',
+									value: function render() {
+													console.log('inside Company form');
 	
-		return CompanyForm;
+													function processNewCompanyForm() {
+																	console.log('processNewCompanyForm');
+																	//this.props.addNewCompany('rs_dashboardLink')
+													}
+	
+													function processNewPeopleForm() {
+																	console.log('processNewPeopleForm');
+																	//this.props.addNewPeople('rs_dashboardLink')
+													}
+	
+													return _react2.default.createElement(
+																	'div',
+																	{ className: 'company_form_container' },
+																	_react2.default.createElement(
+																					'div',
+																					{ className: 'company_create' },
+																					_react2.default.createElement(
+																									'div',
+																									{ className: 'title' },
+																									'Create new company'
+																					),
+																					_react2.default.createElement(
+																									'fieldset',
+																									null,
+																									_react2.default.createElement(
+																													'legend',
+																													null,
+																													'Name'
+																									),
+																									_react2.default.createElement('input', { type: 'text', id: 'company_name', placeholder: 'Enter name' }),
+																									_react2.default.createElement(
+																													'label',
+																													{ htmlFor: 'company_name' },
+																													'Name is required!'
+																									),
+																									_react2.default.createElement(
+																													'legend',
+																													null,
+																													'Address'
+																									),
+																									_react2.default.createElement('input', { type: 'text', id: 'company_address', placeholder: 'Enter address' }),
+																									_react2.default.createElement(
+																													'label',
+																													{ htmlFor: 'company_address' },
+																													'Address is required!'
+																									),
+																									_react2.default.createElement(
+																													'legend',
+																													null,
+																													'Revenue'
+																									),
+																									_react2.default.createElement('input', { type: 'text', id: 'company_revenue', placeholder: 'Enter revenue' }),
+																									_react2.default.createElement(
+																													'label',
+																													{ htmlFor: 'company_revenue' },
+																													'Revenue is required!'
+																									),
+																									_react2.default.createElement(
+																													'legend',
+																													null,
+																													'Phone number'
+																									),
+																									_react2.default.createElement('input', { type: 'text', id: 'company_phone', placeholder: 'Enter number' }),
+																									_react2.default.createElement(
+																													'label',
+																													{ htmlFor: 'company_phone' },
+																													'Number is required!'
+																									),
+																									_react2.default.createElement(
+																													'button',
+																													{ onClick: function onClick() {
+																																					return processNewCompanyForm();
+																																	}, className: 'button is-submit', name: 'save' },
+																													'Save'
+																									)
+																					)
+																	),
+																	_react2.default.createElement(
+																					'div',
+																					{ className: 'person_create' },
+																					_react2.default.createElement(
+																									'div',
+																									{ className: 'title' },
+																									'Create new Person'
+																					),
+																					_react2.default.createElement(
+																									'fieldset',
+																									null,
+																									_react2.default.createElement(
+																													'legend',
+																													null,
+																													'Name'
+																									),
+																									_react2.default.createElement('input', { type: 'text', id: 'person_name', placeholder: 'Enter name' }),
+																									_react2.default.createElement(
+																													'label',
+																													{ htmlFor: 'person_name' },
+																													'Name is required!'
+																									),
+																									_react2.default.createElement(
+																													'legend',
+																													null,
+																													'Address'
+																									),
+																									_react2.default.createElement('input', { type: 'text', id: 'person_address', placeholder: 'Enter address' }),
+																									_react2.default.createElement(
+																													'label',
+																													{ htmlFor: 'person_address' },
+																													'Address is required!'
+																									),
+																									_react2.default.createElement(
+																													'legend',
+																													null,
+																													'Revenue'
+																									),
+																									_react2.default.createElement('input', { type: 'text', id: 'person_company', placeholder: 'Enter revenue' }),
+																									_react2.default.createElement(
+																													'label',
+																													{ htmlFor: 'person_company' },
+																													'Company is required!'
+																									),
+																									_react2.default.createElement(
+																													'button',
+																													{ onClick: function onClick() {
+																																					return processNewPeopleForm();
+																																	}, className: 'button is-submit', name: 'save' },
+																													'Save'
+																									)
+																					)
+																	)
+													);
+									}
+					}]);
+	
+					return CompanyForm;
 	}(_react2.default.Component);
 	
-	exports.default = CompanyForm;
+	var mapStateToProps = function mapStateToProps(state) {
+					return {
+									companiesState: state.companies
+					};
+	};
+	
+	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+					return {
+									addNewCompany: function addNewCompany(id) {
+													dispatch((0, _CompanyActions.addNewCompany)(id));
+									},
+									addNewPeople: function addNewPeople(id) {
+													dispatch((0, _PeopleActions.addNewPeople)(id));
+									}
+					};
+	};
+	
+	CompanyForm.propTypes = {
+					companiesState: _propTypes2.default.object.isRequired,
+					addNewCompany: _propTypes2.default.func.isRequired,
+					addNewPeople: _propTypes2.default.func.isRequired
+	};
+	
+	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(CompanyForm);
 
 /***/ }),
 /* 303 */
@@ -33091,13 +33307,54 @@
 	
 	
 	// module
-	exports.push([module.id, ".company_form_container {\n  border: 1px solid lightgray;\n  border-radius: 5px; }\n  .company_form_container input {\n    display: block; }\n  .company_form_container label {\n    display: none; }\n  .company_form_container fieldset {\n    padding-left: 20px; }\n  .company_form_container legend {\n    border-bottom: 0px;\n    font-weight: bold;\n    font-size: 14px;\n    padding: 10px 0px;\n    margin: 0px; }\n  .company_form_container button {\n    margin: 20px 0px; }\n  .company_form_container .title {\n    font-size: 20px;\n    font-weight: bold;\n    background-color: lightgray;\n    padding: 20px;\n    margin-top: 0px; }\n", ""]);
+	exports.push([module.id, ".company_form_container input {\n  display: block; }\n\n.company_form_container label {\n  display: none;\n  color: red; }\n\n.company_form_container fieldset {\n  padding-left: 20px; }\n\n.company_form_container legend {\n  border-bottom: 0px;\n  font-weight: bold;\n  font-size: 14px;\n  padding: 10px 0px;\n  margin: 0px; }\n\n.company_form_container button {\n  margin: 20px 0px; }\n\n.company_form_container .title {\n  font-size: 25px;\n  font-weight: bold;\n  background-color: lightgray;\n  padding: 20px;\n  margin-top: 0px; }\n\n.company_form_container .company_create,\n.company_form_container .person_create {\n  border: 1px solid lightgray;\n  border-radius: 5px;\n  margin-bottom: 20px; }\n\n.company_form_container .is-submit {\n  display: block; }\n", ""]);
 	
 	// exports
 
 
 /***/ }),
 /* 305 */
+/*!***********************************************!*\
+  !*** ./testCode/src/actions/PeopleActions.js ***!
+  \***********************************************/
+/***/ (function(module, exports) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.fetchStaff = fetchStaff;
+	exports.addNewPeople = addNewPeople;
+	function fetchStaff(slotsMap) {
+	    return {
+	        type: 'FETCH_STAFF',
+	        payload: new Promise(function (resolve, reject) {
+	            setTimeout(function () {
+	                resolve({ 'currentCurrentStaff': {} });
+	            }, 20);
+	        })
+	    };
+	}
+	
+	function addNewPeople(person) {
+	    return {
+	        type: 'ADD_PEOPLE',
+	        payload: new Promise(function (resolve, reject) {
+	            $.ajax({
+	                url: serverHost + '/person',
+	                data: JSON.parse(person),
+	                type: 'POST'
+	            }).done(function (response) {
+	                console.log(response);
+	                resolve({ 'currentCompanyId': response._id });
+	            }).fail(function (failResponse) {});
+	        })
+	    };
+	}
+
+/***/ }),
+/* 306 */
 /*!**************************************!*\
   !*** ./testCode/src/theme/home.scss ***!
   \**************************************/
@@ -33106,7 +33363,7 @@
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(/*! !../../../~/css-loader!../../../~/sass-loader!./home.scss */ 306);
+	var content = __webpack_require__(/*! !../../../~/css-loader!../../../~/sass-loader!./home.scss */ 307);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(/*! ../../../~/style-loader/addStyles.js */ 297)(content, {});
@@ -33126,7 +33383,7 @@
 	}
 
 /***/ }),
-/* 306 */
+/* 307 */
 /*!*********************************************************************!*\
   !*** ./~/css-loader!./~/sass-loader!./testCode/src/theme/home.scss ***!
   \*********************************************************************/
@@ -33143,7 +33400,7 @@
 
 
 /***/ }),
-/* 307 */
+/* 308 */
 /*!***********************************************!*\
   !*** ./testCode/src/containers/PeopleHome.js ***!
   \***********************************************/
@@ -33162,15 +33419,19 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _People = __webpack_require__(/*! ../components/People */ 308);
+	var _People = __webpack_require__(/*! ../components/People */ 309);
 	
 	var _People2 = _interopRequireDefault(_People);
+	
+	var _Person = __webpack_require__(/*! ../components/Person */ 312);
+	
+	var _Person2 = _interopRequireDefault(_Person);
 	
 	var _CompanyForm = __webpack_require__(/*! ../components/CompanyForm */ 302);
 	
 	var _CompanyForm2 = _interopRequireDefault(_CompanyForm);
 	
-	var _home = __webpack_require__(/*! ../theme/home.scss */ 305);
+	var _home = __webpack_require__(/*! ../theme/home.scss */ 306);
 	
 	var _home2 = _interopRequireDefault(_home);
 	
@@ -33203,8 +33464,8 @@
 				var peopleView = void 0;
 				console.log('inside people', this.props.params);
 	
-				if (this.props.params.companyid) {
-					peopleView = _react2.default.createElement(_People2.default, null);
+				if (this.props.params.peopleid) {
+					peopleView = _react2.default.createElement(_Person2.default, null);
 				} else {
 					peopleView = _react2.default.createElement(_People2.default, null);
 				}
@@ -33241,7 +33502,7 @@
 	exports.PeopleHome = PeopleHome;
 
 /***/ }),
-/* 308 */
+/* 309 */
 /*!*******************************************!*\
   !*** ./testCode/src/components/People.js ***!
   \*******************************************/
@@ -33259,7 +33520,7 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _people = __webpack_require__(/*! ../../src/theme/people.scss */ 309);
+	var _people = __webpack_require__(/*! ../../src/theme/people.scss */ 310);
 	
 	var _people2 = _interopRequireDefault(_people);
 	
@@ -33302,7 +33563,7 @@
 	exports.default = People;
 
 /***/ }),
-/* 309 */
+/* 310 */
 /*!****************************************!*\
   !*** ./testCode/src/theme/people.scss ***!
   \****************************************/
@@ -33311,7 +33572,7 @@
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(/*! !../../../~/css-loader!../../../~/sass-loader!./people.scss */ 310);
+	var content = __webpack_require__(/*! !../../../~/css-loader!../../../~/sass-loader!./people.scss */ 311);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(/*! ../../../~/style-loader/addStyles.js */ 297)(content, {});
@@ -33331,7 +33592,7 @@
 	}
 
 /***/ }),
-/* 310 */
+/* 311 */
 /*!***********************************************************************!*\
   !*** ./~/css-loader!./~/sass-loader!./testCode/src/theme/people.scss ***!
   \***********************************************************************/
@@ -33342,13 +33603,74 @@
 	
 	
 	// module
-	exports.push([module.id, ".people_container {\n  border: 1px solid lightgray;\n  border-radius: 5px; }\n  .people_container .title {\n    font-size: 20px;\n    font-weight: bold;\n    background-color: lightgray;\n    padding: 20px;\n    margin-top: 0px; }\n", ""]);
+	exports.push([module.id, ".people_container {\n  border: 1px solid lightgray;\n  border-radius: 5px; }\n  .people_container .title {\n    font-size: 25px;\n    font-weight: bold;\n    background-color: lightgray;\n    padding: 20px;\n    margin-top: 0px; }\n", ""]);
 	
 	// exports
 
 
 /***/ }),
-/* 311 */
+/* 312 */
+/*!*******************************************!*\
+  !*** ./testCode/src/components/Person.js ***!
+  \*******************************************/
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+			value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _people = __webpack_require__(/*! ../../src/theme/people.scss */ 310);
+	
+	var _people2 = _interopRequireDefault(_people);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var Person = function (_React$Component) {
+			_inherits(Person, _React$Component);
+	
+			function Person() {
+					_classCallCheck(this, Person);
+	
+					return _possibleConstructorReturn(this, (Person.__proto__ || Object.getPrototypeOf(Person)).apply(this, arguments));
+			}
+	
+			_createClass(Person, [{
+					key: 'render',
+					value: function render() {
+							console.log('inside person');
+							return _react2.default.createElement(
+									'div',
+									{ className: 'people_container' },
+									_react2.default.createElement(
+											'div',
+											{ className: 'title' },
+											'Person'
+									)
+							);
+					}
+			}]);
+	
+			return Person;
+	}(_react2.default.Component);
+	
+	exports.default = Person;
+
+/***/ }),
+/* 313 */
 /*!********************************************!*\
   !*** ./testCode/src/containers/NoMatch.js ***!
   \********************************************/
@@ -33369,7 +33691,7 @@
 	
 	var _reactRouter = __webpack_require__(/*! react-router */ 182);
 	
-	var _nomatch = __webpack_require__(/*! ../theme/nomatch.scss */ 312);
+	var _nomatch = __webpack_require__(/*! ../theme/nomatch.scss */ 314);
 	
 	var _nomatch2 = _interopRequireDefault(_nomatch);
 	
@@ -33419,7 +33741,7 @@
 	}(_react2.default.Component);
 
 /***/ }),
-/* 312 */
+/* 314 */
 /*!*****************************************!*\
   !*** ./testCode/src/theme/nomatch.scss ***!
   \*****************************************/
@@ -33428,7 +33750,7 @@
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(/*! !../../../~/css-loader!../../../~/sass-loader!./nomatch.scss */ 313);
+	var content = __webpack_require__(/*! !../../../~/css-loader!../../../~/sass-loader!./nomatch.scss */ 315);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(/*! ../../../~/style-loader/addStyles.js */ 297)(content, {});
@@ -33448,7 +33770,7 @@
 	}
 
 /***/ }),
-/* 313 */
+/* 315 */
 /*!************************************************************************!*\
   !*** ./~/css-loader!./~/sass-loader!./testCode/src/theme/nomatch.scss ***!
   \************************************************************************/
@@ -33465,7 +33787,7 @@
 
 
 /***/ }),
-/* 314 */
+/* 316 */
 /*!*****************************************!*\
   !*** ./testCode/src/containers/Root.js ***!
   \*****************************************/
@@ -33484,7 +33806,7 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _root = __webpack_require__(/*! ../../src/theme/root.scss */ 315);
+	var _root = __webpack_require__(/*! ../../src/theme/root.scss */ 317);
 	
 	var _root2 = _interopRequireDefault(_root);
 	
@@ -33524,7 +33846,7 @@
 	}(_react2.default.Component);
 
 /***/ }),
-/* 315 */
+/* 317 */
 /*!**************************************!*\
   !*** ./testCode/src/theme/root.scss ***!
   \**************************************/
@@ -33533,7 +33855,7 @@
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(/*! !../../../~/css-loader!../../../~/sass-loader!./root.scss */ 316);
+	var content = __webpack_require__(/*! !../../../~/css-loader!../../../~/sass-loader!./root.scss */ 318);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(/*! ../../../~/style-loader/addStyles.js */ 297)(content, {});
@@ -33553,7 +33875,7 @@
 	}
 
 /***/ }),
-/* 316 */
+/* 318 */
 /*!*********************************************************************!*\
   !*** ./~/css-loader!./~/sass-loader!./testCode/src/theme/root.scss ***!
   \*********************************************************************/
@@ -33564,13 +33886,13 @@
 	
 	
 	// module
-	exports.push([module.id, ".sigfig_container {\n  color: black; }\n  .sigfig_container a,\n  .sigfig_container a:hover {\n    text-decoration: underline;\n    color: darkblue; }\n  .sigfig_container button,\n  .sigfig_container button:hover {\n    font-weight: bold;\n    background-color: #4169e1; }\n  .sigfig_container input,\n  .sigfig_container button {\n    border-radius: 3px;\n    background-color: white;\n    padding: 5px; }\n", ""]);
+	exports.push([module.id, ".sigfig_container {\n  color: black; }\n  .sigfig_container a,\n  .sigfig_container a:hover {\n    text-decoration: underline;\n    color: #4169e1; }\n  .sigfig_container a {\n    text-decoration: none; }\n  .sigfig_container button,\n  .sigfig_container button:hover {\n    font-weight: bold;\n    background-color: #4169e1; }\n  .sigfig_container input,\n  .sigfig_container button {\n    border-radius: 3px;\n    background-color: white;\n    padding: 5px; }\n", ""]);
 	
 	// exports
 
 
 /***/ }),
-/* 317 */
+/* 319 */
 /*!********************************************!*\
   !*** ./testCode/src/containers/Welcome.js ***!
   \********************************************/
@@ -33589,7 +33911,7 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _welcome = __webpack_require__(/*! ../../src/theme/welcome.scss */ 318);
+	var _welcome = __webpack_require__(/*! ../../src/theme/welcome.scss */ 320);
 	
 	var _welcome2 = _interopRequireDefault(_welcome);
 	
@@ -33645,7 +33967,7 @@
 	exports.Welcome = Welcome;
 
 /***/ }),
-/* 318 */
+/* 320 */
 /*!*****************************************!*\
   !*** ./testCode/src/theme/welcome.scss ***!
   \*****************************************/
@@ -33654,7 +33976,7 @@
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(/*! !../../../~/css-loader!../../../~/sass-loader!./welcome.scss */ 319);
+	var content = __webpack_require__(/*! !../../../~/css-loader!../../../~/sass-loader!./welcome.scss */ 321);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(/*! ../../../~/style-loader/addStyles.js */ 297)(content, {});
@@ -33674,7 +33996,7 @@
 	}
 
 /***/ }),
-/* 319 */
+/* 321 */
 /*!************************************************************************!*\
   !*** ./~/css-loader!./~/sass-loader!./testCode/src/theme/welcome.scss ***!
   \************************************************************************/

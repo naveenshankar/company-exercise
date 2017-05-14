@@ -1,5 +1,9 @@
 /swagger
 /node_modules
-/server
+/server/models
+/server/routes.js
+/server/server.js
+/server/npm-debug.log
+/testCode/public
 /data
 .DS_Store
