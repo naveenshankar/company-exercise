@@ -20,6 +20,15 @@ npm run start
 * navigate to http://localhost:3001/testCode/index.html
 * do you work within the testCode directory
 
+## download dependencies and run server
+From your project folder run the following
+```
+npm install
+npm run build
+```
+* navigate to http://localhost:3001/testCode/index.html
+* do you work within the testCode directory
+
 ## submit your work
 submit your testCode directory, and anything else you've built as a zip file back to your recruiter. If running your solution will require the grader to do anything beyond dropping your testCode directory into a running node server, let us know.
 
