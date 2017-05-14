@@ -1,0 +1,31 @@
+.companies_container{
+	border:1px solid lightgray;
+	border-radius:5px;
+	.title{
+		font-size:25px;
+		font-weight:bold;
+		background-color: lightgray;
+		padding:20px;
+		margin-top:0px;
+	}
+	.company{
+		margin: 20px;
+    	border: 1px solid #d3d3d3;
+    	border-radius: 5px;
+		.title{
+			font-size:20px;
+			color:#4169e1;
+			display:block;
+		}
+		.address{
+			padding-left:20px;
+		}
+		.viewmore{
+			font-size:13px;
+			font-weight:bold;
+			background-color: lightgray;
+			display:block;
+			padding:10px 0 10px 20px;
+		}
+	}
+}

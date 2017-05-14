@@ -1,0 +1,38 @@
+.company_form_container{
+	input{
+		display:block;
+	}
+	label{
+		display:none;
+		color:red;
+	}
+	fieldset{
+		padding-left:20px;
+	}
+	legend{
+	   	border-bottom: 0px;
+	    font-weight: bold;
+	    font-size: 14px;
+	    padding: 10px 0px;
+    	margin: 0px;
+	}
+	button{
+		margin:20px 0px;
+	}
+	.title{
+		font-size:25px;
+		font-weight:bold;
+		background-color: lightgray;
+		padding:20px;
+		margin-top:0px;
+	}
+	.company_create,
+	.person_create{
+		border:1px solid lightgray;
+		border-radius:5px;
+		margin-bottom:20px;
+	}
+	.is-submit{
+		display:block;
+	}
+}
