@@ -1,3 +1,4 @@
+.company_container,
 .companies_container{
 	border:1px solid lightgray;
 	border-radius:5px;
@@ -8,7 +9,8 @@
 		padding:20px;
 		margin-top:0px;
 	}
-	.company{
+	.company,
+	.company_details{
 		margin: 20px;
     	border: 1px solid #d3d3d3;
     	border-radius: 5px;
@@ -17,7 +19,12 @@
 			color:#4169e1;
 			display:block;
 		}
-		.address{
+		.address,
+		.address_value,
+		.revenue,
+		.revenue_value,
+		.phone,
+		.phone_value{
 			padding-left:20px;
 		}
 		.viewmore{

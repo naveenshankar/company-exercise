@@ -1,6 +1,5 @@
 
 import React from 'react';
-import styles from '../../src/theme/people.scss';
 
 class Person extends React.Component {
   	render() {

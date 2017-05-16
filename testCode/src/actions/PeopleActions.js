@@ -1,26 +1,34 @@
+const serverHost = process.env.SERVICE_URL;
+import store from '../store';
 
-export function fetchStaff(slotsMap) {
+export function getPeople(id) {
     return {
         type: 'FETCH_STAFF',
 		payload: new Promise((resolve, reject) => {
-            setTimeout(() => {
-                resolve({'currentCurrentStaff': {}});
-            }, 20);
+            $.ajax({
+                   url: serverHost+'/companies/'+id+'/people',
+                   type:'GET'
+                 }).done(function(response) {
+                     resolve({'staff': response});
+                 }).fail(function(failResponse){
+                         
+                }); 
         })
     };
 }
 
-export function addNewPeople(person) {
+export function addNewPerson(person) {
     return {
-        type: 'ADD_PEOPLE',
+        type: 'ADD_PERSON',
 		payload: new Promise((resolve, reject) => {
+			let newStaffList = store.getState().people.staff;
             $.ajax({
                    url: serverHost+'/person',
-                   data:JSON.parse(person),
+                   data:person,
                    type:'POST'
                  }).done(function(response) {
-                     console.log(response);
-                     resolve({'currentCompanyId':response._id});
+                     newStaffList.push(response);
+                     resolve({'staff':newStaffList});
                  }).fail(function(failResponse){
                          
                 });

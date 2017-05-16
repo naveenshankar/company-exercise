@@ -11,8 +11,8 @@ brew install node
 brew install mongodb
 ```
 
-## download dependencies and run server
-From your project folder run the following
+## download dependencies and run server for API
+In the terminal - From your project folder run the following
 ```
 npm install
 npm run start
@@ -20,13 +20,14 @@ npm run start
 * navigate to http://localhost:3001/testCode/index.html
 * do you work within the testCode directory
 
-## download dependencies and run server
-From your project folder run the following
+## download dependencies and run server to client
+In a different terminal - from your project folder run the following
 ```
 npm install
 npm run build
 ```
-* navigate to http://localhost:3001/testCode/index.html
+* navigate to http://localhost:4000
+
 * do you work within the testCode directory
 
 ## submit your work

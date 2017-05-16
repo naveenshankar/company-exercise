@@ -9,7 +9,6 @@ import PropTypes from 'prop-types'; // ES6
 class CompanyHome extends React.Component {
   	render() {
   			let companyView;
-  			console.log(this.props.params);
 
   			if(this.props.params.companyid){
 				companyView  =	<Company data-id={this.props.params.companyid} />;

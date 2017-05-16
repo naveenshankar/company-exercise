@@ -13,15 +13,14 @@ class Companies extends React.Component {
     }
 
   	render() {
-  			console.log('inside Companies');
   			return (
 				<div className="companies_container">
-				  <div className="title">Companies</div>
-				  {this.props.companiesState.companies.map(function(val,index){
+				  	<div className="title">Companies</div>
+				  	{this.props.companiesState.companies.map(function(val,index){
 				  		let companyPath = '/companies/'+val._id;
 				  		let peoplePath = '/companies/'+val._id+'/people';
 				  		let linkKey = 'link_key'+index;
-                                return <div key={index} className="company" ><Link to={companyPath} className="title" data-tsIndex={index} key={'title'+index}>{val.name}</Link><div key={index} className="address">{val.address}</div><Link key={linkKey} to={peoplePath} className="viewmore">People who work here</Link></div>;
+                        return <div key={index} className="company" ><Link to={companyPath} className="title" data-tsIndex={index} key={'title'+index}>{val.name}</Link><div key={index} className="address">{val.address}</div><Link key={linkKey} to={peoplePath} className="viewmore">People who work here</Link></div>;
                     })}
 			    </div>
 			);

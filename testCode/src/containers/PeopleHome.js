@@ -9,13 +9,12 @@ import PropTypes from 'prop-types'; // ES6
 class PeopleHome extends React.Component {
   	render() {
   			let peopleView;
-  			console.log('inside people',this.props.params);
 
   			if(this.props.params.peopleid){
 				peopleView = <Person/>;
 			}
 			else{
-				peopleView = <People/>;
+				peopleView = <People data-id={this.props.params.companyid} />;
 			}
 
 			return (
