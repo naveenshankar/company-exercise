@@ -39,25 +39,25 @@ class Company extends React.Component {
   			}
 
 	  		if(this.props.companiesState.editing){
-	  			editSaveLink = <a onClick={() => processNewCompanyForm()} className="edit_company">Save</a>;
+	  			editSaveLink = <a onClick={() => processNewCompanyForm()} className="edit_company col-xs-12 col-lg-2">Save</a>;
 	  			companyDetails= 
 	  			<div className="company_details_container_form">
 					<div className="address">Address</div>
 					<input onChange={(e) => inputOnChangeStatus(e)} className="address_input" id="address_input" defaultValue={companyObj.address} />
-					<label htmlFor="address_input">Name is required!</label>
+					<label htmlFor="address_input">Address is required!</label>
 					<div className="revenue">Revenue</div>
 					<input onChange={(e) => inputOnChangeStatus(e)} className="revenue_input" id="revenue_input" defaultValue={companyObj.revenue} />	
-					<label htmlFor="revenue_input">Name is required!</label>
+					<label htmlFor="revenue_input">Revenue is required!</label>
 					<div className="phone">Phone</div>
 					<input onChange={(e) => inputOnChangeStatus(e)} className="phone_input" id="phone_input" defaultValue={companyObj.phone} />
-					<label htmlFor="phone_input">Name is required!</label>
+					<label htmlFor="phone_input">Phone is required!</label>
 					<div className="name">Name</div>
 					<input onChange={(e) => inputOnChangeStatus(e)} className="name_input" id="name_input" defaultValue={companyObj.name} />
 					<label htmlFor="name_input">Name is required!</label>
 				</div>;
 	  		}
 	  		else{
-	  			editSaveLink = <a onClick={() => this.props.editCompany(true)} className="edit_company">Edit</a>;
+	  			editSaveLink = <a onClick={() => this.props.editCompany(true)} className="edit_company col-xs-12 col-lg-2">Edit</a>;
 				companyDetails = 
 				<div className="company_details_container">
 					<div className="address">Address</div>

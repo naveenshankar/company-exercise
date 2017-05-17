@@ -28,8 +28,15 @@ const peopleReducer = (state = {
         case 'SAVE_PERSON_FULFILLED' :
             state = {
                 ...state,
-                currentPersonId:action.payload.currentPersonId,
+                staff:action.payload.staff,
                 editing:action.payload.editing
+            };
+            break;
+        case 'DELETE_PERSON_FULFILLED' :
+            state = {
+                ...state,
+                staff:action.payload.staff,
+                editing:false
             };
             break;
         case 'ADD_PERSON_FULFILLED':

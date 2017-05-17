@@ -7,6 +7,7 @@
 		background-color: lightgray;
 		padding:20px;
 		margin-top:0px;
+		overflow:auto;
 		.edit_person{
 			display: inline-block;
 		    float: right;
@@ -21,6 +22,10 @@
     	border-radius: 5px;
     	.people{
 			padding-left:30px;
+			.people_delete{
+				padding-right:30px;
+				float:right;
+			}
 		}
 		.title{
 			font-size:20px;
@@ -28,13 +33,13 @@
 			display:block;
 		}
 		.address,
-		.phone,
+		.company,
 		.name{
 			font-weight:bold;
 		}
 		.address_value,
-		.phone_value{
-			padding:7px 5px;
+		.name_value{
+			padding: 7px 5px 7px 0px;
 		}
 		.address_input,
 		.phone_input{

@@ -5,6 +5,9 @@ import {connect} from 'react-redux';
 import {Link} from 'react-router';
 import {getPerson} from '../actions/PeopleActions';
 import {editPerson} from '../actions/PeopleActions';
+import {savePerson} from '../actions/PeopleActions';
+import {processFormElements} from '../utils/FormValidator.js';
+import {inputOnChangeStatus} from '../utils/FormValidator.js';
 
 class Person extends React.Component {
 	componentWillMount()
@@ -31,22 +34,33 @@ class Person extends React.Component {
 	  	});
 
 	  	function processNewCompanyForm(){
-  				let companyFormObj = {};
-  				if(processFormElements(['address_input','revenue_input','phone_input','name_input']) == true){
-  					companyFormObj['name'] = document.getElementById('name_input').value;
-	  				companyFormObj['address'] = document.getElementById('address_input').value;
-	  				companyFormObj['revenue'] = document.getElementById('revenue_input').value;
-	  				companyFormObj['phone'] = document.getElementById('phone_input').value;
-	  				companyFormObj['id'] = thisObj.props['data-id'];
-  					thisObj.props.saveCompany(companyFormObj);
+  				let personFormObj = {};
+  				if(processFormElements(['address_input','name_input']) == true){
+  					personFormObj['name'] = document.getElementById('name_input').value;
+	  				personFormObj['email'] = document.getElementById('address_input').value;
+	  				personFormObj['id'] = thisObj.props['data-id'];
+  					thisObj.props.savePerson(personFormObj);
   				}
   		}
 
 	  	if(this.props.peopleState.editing){
-	  		editSaveLink = <a onClick={() => processNewCompanyForm()} className="edit_person">Save</a>;
+	  		editSaveLink = <a onClick={() => processNewCompanyForm()} className="edit_person col-xs-12 col-lg-2">Save</a>;
+	  		personDetails = 
+	  		<div className="person_details_container_form">
+					<div className="name">Name</div>
+					<input onChange={(e) => inputOnChangeStatus(e)} className="name_input" id="name_input" defaultValue={peopleObj.name} />
+					<label htmlFor="name_input">Name is required!</label>
+
+					<div className="address">Address</div>
+					<input onChange={(e) => inputOnChangeStatus(e)} className="address_input" id="address_input" defaultValue={peopleObj.email} />
+					<label htmlFor="address_input">Address is required!</label>
+
+					<div className="company">Company</div>
+					<input onChange={(e) => inputOnChangeStatus(e)} className="company_input" id="company_input" defaultValue={companyObj.name} />
+			</div>;
 	  	}
 	  	else{
-	  		editSaveLink = <a onClick={() => this.props.editPerson(true)} className="edit_person">Edit</a>;
+	  		editSaveLink = <a onClick={() => this.props.editPerson(true)} className="edit_person col-xs-12 col-lg-2">Edit</a>;
 	  		personDetails = 
 	  		<div className="person_details_container">
 					<div className="name">Name</div>
@@ -55,11 +69,11 @@ class Person extends React.Component {
 					</div>
 					<div className="address">Address</div>
 					<div className="address_value">	
-						{peopleObj.address}
+						{peopleObj.email}
 					</div>
 					<div className="company">Company</div>
 					<div className="company_value">
-						{peopleObj.company}
+						{companyObj.name}
 					</div>
 			</div>;
 	  	}
@@ -90,6 +104,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         editPerson: (status) => {
             dispatch(editPerson(status));
+        },
+        savePerson: (obj) => {
+            dispatch(savePerson(obj));
         }
     };
 };
@@ -99,6 +116,7 @@ Person.propTypes = {
     peopleState: PropTypes.object.isRequired,
     getPerson: PropTypes.func.isRequired,
     editPerson: PropTypes.func.isRequired,
+    savePerson: PropTypes.func.isRequired,
     'data-id': PropTypes.string.isRequired
 }; 
 
