@@ -1,6 +1,7 @@
 var express = require('express');
 var mongoose = require('mongoose');
 var fs = require('fs');
+var cors = require('cors');
 var swaggerJSDoc = require('swagger-jsdoc');
 
 var mongoUri = 'mongodb://localhost/noderest';
@@ -8,7 +9,7 @@ mongoose.connect(mongoUri);
 
 var db = mongoose.connection;
 db.on('error', function() {
-	throw new Error('unabled to connect to database at ' + mongoUri);
+  throw new Error('unabled to connect to database at ' + mongoUri);
 });
 
 var app = express();
@@ -37,13 +38,14 @@ app.swaggerSpec = swaggerJSDoc(options);
 
 
 app.configure(function() {
-	app.use(express.bodyParser());
-	app.use('/swagger', express.static('../swagger'));
-	app.use('/testCode', express.static('../testCode'));
+  app.use(express.bodyParser());
+  app.options('*', cors());
+  app.use('/swagger', express.static('../swagger'));
+  app.use('/testCode', express.static('../testCode'));
   app.use('/curtis', express.static('../curtisCaliTestCode'));
   app.use('/angular-rpt', express.static('../angular-rpt'));
   app.use('/aishwara', express.static('../aishwara'));
-	app.use('/marcus', express.static('../marcus'));
+  app.use('/marcus', express.static('../marcus'));
   app.use('/vince', express.static('../vince'));
 
 });

@@ -2,6 +2,8 @@ var mongoose = require('mongoose');
 var Person = mongoose.model('Person');
 
 exports.findByCompanyId = function(req, res) {
+	res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 	var companyId = req.params.companyId;
 	Person.find({'companyId': companyId}, function(err, results) {
 		return res.send(results);
@@ -9,6 +11,8 @@ exports.findByCompanyId = function(req, res) {
 };
 
 exports.findByPersonId = function(req, res) {
+	res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 	var id = req.params.id;
 	Person.findOne({'_id': id}, function(err, result) {
 		res.send(result);
@@ -16,12 +20,17 @@ exports.findByPersonId = function(req, res) {
 };
 
 exports.add = function(req, res) {
+	res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 	Person.create(req.body, function (err, record) {
 		return (err) ? console.log(err) : res.send(record);
   });
 };
 
 exports.update = function(req, res) {
+	res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    res.header("Access-Control-Allow-Methods", "POST, GET, PUT, OPTIONS, PATCH, DELETE");
 	var id = req.params.id;
  	var updates = req.body;
 
@@ -37,6 +46,9 @@ exports.update = function(req, res) {
 };
 
 exports.delete = function(req, res) {
+	res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    res.header("Access-Control-Allow-Methods", "POST, GET, PUT, OPTIONS, PATCH, DELETE");
 	var id = req.params.id;
 	Person.remove({'_id':id},function(result) {
 		return res.send(result);
@@ -44,6 +56,8 @@ exports.delete = function(req, res) {
 };
 
 exports.import = function(req, res) {
+	res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 	var companyId = req.params.companyId;
 	
 	Person.create(
