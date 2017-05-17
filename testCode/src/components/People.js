@@ -21,17 +21,19 @@ class People extends React.Component {
   			}
   		});
 
-  			return (
-				<div className="people_container">
-				  <div className="title">People at {currentCompany.name}</div>
-				  {this.props.peopleState.staff.map(function(val,index){
-				  		let companyPath = '/companies/'+val._id;
-				  		let personPath = '/companies/'+thisPeople.props['data-id']+'/people/'+val._id;
-                        return <li key={'li_key'+index} className="people"><Link key={'link_key'+index} to={personPath}>{val.name}</Link></li>;
-                    })}
-				  	<Link to={'/companies/'+currentCompany._id} className="viewmore">Back to {currentCompany.name}</Link>
-			    </div>
-			);
+		return (
+			<div className="people_container">
+			  <div className="title">People at {currentCompany.name}</div>
+			  <div className="people_details">
+			  	{this.props.peopleState.staff.map(function(val,index){
+			  		let companyPath = '/companies/'+val._id;
+			  		let personPath = '/companies/'+thisPeople.props['data-id']+'/people/'+val._id;
+                    return <li key={'li_key'+index} className="people"><Link key={'link_key'+index} to={personPath}>{val.name}</Link></li>;
+                })}
+			  	<Link to={'/companies/'+currentCompany._id} className="viewmore">Back to {currentCompany.name}</Link>
+			  	</div>
+		    </div>
+		);
 	}
 }
 

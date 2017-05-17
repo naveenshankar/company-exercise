@@ -2,10 +2,6 @@
 	input{
 		display:block;
 	}
-	label{
-		display:none;
-		color:red;
-	}
 	fieldset{
 		padding-left:20px;
 	}
@@ -31,18 +27,5 @@
 		border:1px solid lightgray;
 		border-radius:5px;
 		margin-bottom:20px;
-	}
-	.is-submit{
-		display:block;
-	}
-	.is-error{
-		border-color: red;
-	}
-	.is-error:focus {
-	  outline-width: 0;
-	}
-	.is-error + label {
-	  display: block;
-	  color: red;
 	}
 }

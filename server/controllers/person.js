@@ -30,6 +30,7 @@ exports.add = function(req, res) {
 exports.update = function(req, res) {
 	res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    res.header("Access-Control-Allow-Methods", "POST, GET, PUT, OPTIONS, PATCH, DELETE");
 	var id = req.params.id;
  	var updates = req.body;
 
@@ -47,6 +48,7 @@ exports.update = function(req, res) {
 exports.delete = function(req, res) {
 	res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    res.header("Access-Control-Allow-Methods", "POST, GET, PUT, OPTIONS, PATCH, DELETE");
 	var id = req.params.id;
 	Person.remove({'_id':id},function(result) {
 		return res.send(result);

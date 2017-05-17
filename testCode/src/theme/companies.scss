@@ -8,6 +8,12 @@
 		background-color: lightgray;
 		padding:20px;
 		margin-top:0px;
+		.edit_company{
+			display: inline-block;
+		    float: right;
+		    font-size: 20px;
+		    cursor:pointer;
+		}
 	}
 	.company,
 	.company_details{
@@ -20,12 +26,31 @@
 			display:block;
 		}
 		.address,
-		.address_value,
 		.revenue,
-		.revenue_value,
 		.phone,
+		.name{
+			font-weight:bold;
+		}
+		.address_value,
+		.revenue_value,
 		.phone_value{
-			padding-left:20px;
+			padding:7px 5px;
+		}
+		.address_input,
+		.revenue_input,
+		.phone_input{
+			display:block;
+		}
+		.company_details_container,
+		.company_details_container_form{
+			padding:20px;
+		}
+		.companies_summary_container{
+			.address,
+			.revenue,
+			.phone{
+				padding-left:20px;
+			}
 		}
 		.viewmore{
 			font-size:13px;

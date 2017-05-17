@@ -3,6 +3,7 @@ const companiesReducer = (state = {
     deleteCache: false,
     companies: [],
     addCompanyPending:false,
+    editing:false,
     currentCompanyId:null
 }, action) => {
     switch (action.type) {
@@ -18,6 +19,19 @@ const companiesReducer = (state = {
                 ...state,
                 currentCompanyId:action.payload.currentCompanyId,
                 addCompanyPending:false
+            };
+            break;
+        case 'EDIT_COMPANY_FULFILLED' :
+            state = {
+                ...state,
+                editing:action.payload.editing
+            };
+            break;
+        case 'SAVE_COMPANY_FULFILLED' :
+            state = {
+                ...state,
+                editing:action.payload.editing,
+                companies:action.payload.companies
             };
             break;
         case 'ADD_COMPANY_PENDING' :

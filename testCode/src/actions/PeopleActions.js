@@ -17,6 +17,33 @@ export function getPeople(id) {
     };
 }
 
+export function editPerson(status) {
+    return {
+        type: 'EDIT_PERSON',
+		payload: new Promise((resolve, reject) => {
+            resolve({'editing':status});
+        })
+    };
+}
+
+export function savePerson(currentPerson) {
+    return {
+        type: 'SAVE_PERSON',
+		payload: new Promise((resolve, reject) => {
+            resolve({'currentPersonId':currentPerson._id,'editing':false});
+        })
+    };
+}
+
+export function getPerson(id) {
+    return {
+        type: 'GET_PERSON',
+		payload: new Promise((resolve, reject) => {
+            resolve({'currentPersonId':id});
+        })
+    };
+}
+
 export function addNewPerson(person) {
     return {
         type: 'ADD_PERSON',

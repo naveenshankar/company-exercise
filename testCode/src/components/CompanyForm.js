@@ -5,26 +5,14 @@ import {connect} from 'react-redux';
 import styles from '../../src/theme/companyform.scss';
 import {addNewCompany} from '../actions/CompanyActions';
 import {addNewPerson} from '../actions/PeopleActions';
+import {processFormElements} from '../utils/FormValidator.js';
+import {inputOnChangeStatus} from '../utils/FormValidator.js';
 
 class CompanyForm extends React.Component {
 
-  	render() {
+  		render() {
   			let thisForm = this;
   			let createCompanyForm,createPersonForm;
-
-  			function processFormElements(elements){
-  				let readyToSubmit = true;
-  				elements.forEach(function(elementid,index){
-  					if(document.getElementById(elementid).value.replace(/ /g, '') === ''){
-	  					document.getElementById(elementid).className = 'is-error';
-	  					readyToSubmit = false;
-	  				}
-	  				else{
-	  					document.getElementById(elementid).className = '';
-  					}
-  				});
-  				return readyToSubmit;
-  			}
 
   			function processNewCompanyForm(){
   				let companyObj = {};
@@ -45,17 +33,6 @@ class CompanyForm extends React.Component {
 	  				personObj['email'] = document.getElementById('person_address').value;
 	  				personObj['companyId'] = dropDown.value.replace('select_','');
   					thisForm.props.addNewPerson(personObj);
-  				}
-  			}
-
-  			function inputOnChangeStatus(e){
-  				if(e.target.value.replace(/ /g, '') === ''){
-  					if(e.target.className.indexOf('is-error') == -1){
-  						e.target.className = 'is-error';
-  					}
-  				}
-  				else{
-  					e.target.className = '';
   				}
   			}
 

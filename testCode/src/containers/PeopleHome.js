@@ -11,7 +11,7 @@ class PeopleHome extends React.Component {
   			let peopleView;
 
   			if(this.props.params.peopleid){
-				peopleView = <Person/>;
+				peopleView = <Person data-id={this.props.params.peopleid}/>;
 			}
 			else{
 				peopleView = <People data-id={this.props.params.companyid} />;
