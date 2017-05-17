@@ -1,0 +1,41 @@
+.sigfig_container{
+	text-transform: capitalize;
+	a,
+	a:hover{
+		text-decoration:underline;
+		color:#4169e1;
+	}
+	a{
+		text-decoration:none;
+		cursor:pointer;
+	}
+	color:black;
+	button,
+	button:hover{
+		font-weight:bold;
+		background-color:#4169e1;
+	}
+	input,
+	button{
+		border-radius:3px;
+		background-color:white;
+		padding:5px;
+	}
+	label{
+		display:none;
+		color:red;
+	}
+	.is-submit{
+		display:block;
+	}
+	.is-error{
+		border-color: red;
+	}
+	.is-error:focus {
+	  outline-width: 0;
+	}
+	.is-error + label {
+	  display: block;
+	  color: red;
+	}
+}
