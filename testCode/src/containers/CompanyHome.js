@@ -20,11 +20,13 @@ class CompanyHome extends React.Component {
 			return (
 				<div className="home_container">
 				  	<h1>SigFig RPT</h1>
-				  	<div className="home_container_left col-xs-12 col-lg-6">
-				  		{companyView}
-				  	</div>
-				  	<div className="home_container_right col-xs-12 col-lg-3">
-				  		<CompanyForm />
+				  	<div className="home_container_wrapper">
+					  	<div className="home_container_left col-xs-12 col-lg-8">
+					  		{companyView}
+					  	</div>
+					  	<div className="home_container_right col-xs-12 col-lg-4">
+					  		<CompanyForm />
+					  	</div>
 				  	</div>
 			    </div>
 			);
