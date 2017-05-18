@@ -49,19 +49,19 @@ module.exports = {
               new webpack.DefinePlugin({
                 'process.env': {
                     SERVICE_URL: JSON.stringify("http://localhost:3001"),
-                    //NODE_ENV: JSON.stringify('production')
-                    NODE_ENV: JSON.stringify('development')
+                    NODE_ENV: JSON.stringify('production')
+                    //NODE_ENV: JSON.stringify('development')
                 }
               }),
-              // optimizations
-              // new webpack.optimize.DedupePlugin(),
-              // new webpack.optimize.OccurenceOrderPlugin(),
-              // new webpack.optimize.UglifyJsPlugin({
-              //   //beautify: false,
-              //   compress: {
-              //     warnings: false
-              //   }
-              // }),
+              optimizations
+              new webpack.optimize.DedupePlugin(),
+              new webpack.optimize.OccurenceOrderPlugin(),
+              new webpack.optimize.UglifyJsPlugin({
+                //beautify: false,
+                compress: {
+                  warnings: false
+                }
+              }),
 
     ],
     node: {

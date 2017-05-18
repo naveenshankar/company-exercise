@@ -48,7 +48,7 @@ storeConfig = createStore(
 		        routing:routerReducer
 		    }),
 		    loadState(),
-		    applyMiddleware(logger,promiseMiddleware())
+		    applyMiddleware(/*logger,*/promiseMiddleware())
 		);
 
 export default storeConfig;
