@@ -1,0 +1,38 @@
+{
+  parser: "babel-eslint",
+  //"extends": "airbnb",  // AIRBNB LINTING STANDARD
+  //"extends": "eventbrite-react",  // EVENTBRITE LINTING STANDARD
+  "plugins": [
+    "react"
+  ],
+  //CUSTOM LINTING RULES
+  "rules": {
+    "comma-dangle": [
+      "warn",
+      "never"
+    ],
+    // "indent": [
+    //   "warn",
+    //   2
+    // ],
+    "linebreak-style": [
+      "warn",
+      "unix"
+    ],
+    "quotes": [
+      "error",
+      "single"
+    ],
+    "semi": [
+      "error",
+      "always"
+    ],
+    /* Advanced Rules*/
+    // "no-tabs" : "warn",
+    // "react/jsx-filename-extension" : "warn",
+     "no-unused-expressions": "warn",
+     "no-useless-concat": "warn",
+     "block-scoped-var": "error",
+     "consistent-return": "error"
+  }
+}

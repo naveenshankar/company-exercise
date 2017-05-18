@@ -3,6 +3,8 @@ var Company = mongoose.model('Company');
 
 exports.findAll = function(req, res) {
 	console.log('company.findAll');
+	res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 
 	Company.find({}, function(err, results){
 		return res.send(results);
@@ -10,6 +12,8 @@ exports.findAll = function(req, res) {
 };
 
 exports.findById = function(req, res) {
+	res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 	var id = req.params.id;
 	Company.findOne({'_id': id}, function(err, result) {
 		res.send(result);
@@ -17,6 +21,8 @@ exports.findById = function(req, res) {
 };
 
 exports.add = function(req, res) {
+	res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 	Company.create(req.body, function(err, company) {
 		if (err) {
 			return console.log(err);
@@ -27,6 +33,8 @@ exports.add = function(req, res) {
 };
 
 exports.update = function(req, res) {
+	res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 	var id = req.params.id;
 	var updates = req.body;
 
@@ -41,6 +49,8 @@ exports.update = function(req, res) {
 };
 
 exports.import = function(req, res) {
+	res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 	Company.create(
 		{'name': 'Xerox', 'address': '123 Main St, Rochester NY 12345', 'revenue': 10000, 'phone': '585-555-1234' },
 		{'name': 'Kodak', 'address': '456 South St, Rochester NY 12345', 'revenue': 20000, 'phone': '585-555-5678' },
@@ -52,4 +62,5 @@ exports.import = function(req, res) {
 		    }
 		    return res.send(202);
 		});
-}
+};
+
