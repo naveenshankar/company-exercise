@@ -21,9 +21,6 @@ class Person extends React.Component {
   		let editSaveLink ;
   		let thisObj = this;
 
-  		console.log('peopleState',this.props.peopleState);
-	  	console.log('companiesState',this.props.companiesState);
-
   		this.props.peopleState.staff.forEach(function(val,index){
 	  			if(val._id == thisObj.props['data-id']){
 	  				peopleObj = val;
@@ -36,9 +33,6 @@ class Person extends React.Component {
 	  				companyObj = val;
 	  			}
 	  	});
-
-	  	console.log('peopleObj',peopleObj);
-	  	console.log('companyObj',companyObj);
 
 	  	function processNewCompanyForm(){
   				let personFormObj = {};
