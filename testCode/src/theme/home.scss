@@ -1,0 +1,33 @@
+
+.home_container{
+	overflow:auto;
+	> h1{
+		border-bottom: 2px solid #d3d3d3;
+		padding-bottom: 10px;
+		color:royalblue;
+	}
+	.home_container_wrapper{
+		width:80%;
+		margin:0 auto;
+	}
+	.home_container_left,
+	.home_container_right
+	{
+		float:left;
+	}
+	.home_container_right
+	{
+		float:right;
+	}
+}
+
+@media (max-width:480px){
+	.home_container{
+		.home_container_wrapper{
+			width:100%;
+		}
+		.home_container_left{
+			padding-bottom:20px;
+		}
+	}
+}
