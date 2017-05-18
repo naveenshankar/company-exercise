@@ -21,6 +21,9 @@ class Person extends React.Component {
   		let editSaveLink ;
   		let thisObj = this;
 
+  		console.log('peopleState',this.props.peopleState);
+	  	console.log('companiesState',this.props.companiesState);
+
   		this.props.peopleState.staff.forEach(function(val,index){
 	  			if(val._id == thisObj.props['data-id']){
 	  				peopleObj = val;
@@ -28,10 +31,14 @@ class Person extends React.Component {
 	  	});
 
 	  	this.props.companiesState.companies.forEach(function(val,index){
-	  			if(val._id == thisObj.props.companiesState.currentCompanyId){
+	  			//if(val._id == thisObj.props.companiesState.currentCompanyId){
+	  			if(val._id == thisObj.props['data-companyId']){
 	  				companyObj = val;
 	  			}
 	  	});
+
+	  	console.log('peopleObj',peopleObj);
+	  	console.log('companyObj',companyObj);
 
 	  	function processNewCompanyForm(){
   				let personFormObj = {};
@@ -83,7 +90,7 @@ class Person extends React.Component {
 			  	<div className="title">{peopleObj.name}{editSaveLink}</div>
 			  	<div className="person_details">
 			  		{personDetails}
-			  		<Link to={'/companies/'+thisObj.props.companiesState.currentCompanyId+'/people'} className="viewmore">Back to People at {companyObj.name}</Link>
+			  		<Link to={'/companies/'+thisObj.props['data-companyId']+'/people'} className="viewmore">Back to People at {companyObj.name}</Link>
 			  	</div>
 		    </div>
 		);
@@ -117,7 +124,8 @@ Person.propTypes = {
     getPerson: PropTypes.func.isRequired,
     editPerson: PropTypes.func.isRequired,
     savePerson: PropTypes.func.isRequired,
-    'data-id': PropTypes.string.isRequired
+    'data-id': PropTypes.string.isRequired,
+    'data-companyId':PropTypes.string.isRequired
 }; 
 
 export default connect(mapStateToProps, mapDispatchToProps)(Person);

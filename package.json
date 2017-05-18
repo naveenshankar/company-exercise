@@ -42,7 +42,7 @@
   "scripts": {
     "mongo": "mongod --dbpath data/db",
     "server": "cd server && node server.js",
-    "build": "webpack --config testCode/webpack.config.js -p && cp testCode/src/client/index.html testCode/public/index.html && webpack-dev-server --content-base testCode/src/client/ --config testCode/webpack.config.js --inline --hot --history-api-fallback --port 4000 --http",
+    "build": "webpack --config testCode/webpack.config.js -d && cp testCode/src/client/index.html testCode/public/index.html && webpack-dev-server --content-base testCode/src/client/ --config testCode/webpack.config.js --inline --hot --history-api-fallback --port 4000 --http",
     "start": "npm run mongo & sleep 3 & npm run server"
   }
 }
