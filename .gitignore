@@ -6,3 +6,4 @@
 /testCode/public
 /data/db/*
 .DS_Store
+npm-debug.log
