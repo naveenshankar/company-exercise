@@ -27,8 +27,6 @@ npm run build
 ```
 * navigate to http://localhost:4000
 
-* do you work within the testCode directory
-
 # Functionality Implemented
 *Show a list of companies
 *Show the details/full record of an existing company
