@@ -28,13 +28,13 @@ npm run build
 * navigate to http://localhost:4000
 
 # Functionality Implemented
-*Show a list of companies
-*Show the details/full record of an existing company
-*Create a new company
-*Edit an existing company's record
-*Show a list of people who work at a given company
-*Show the details for a specific person
-*Edit a person's record
-*Delete a person record
-*Create a new person, associating them to an existing company
-*Bonus: make the site responsive
+* Show a list of companies
+* Show the details/full record of an existing company
+* Create a new company
+* Edit an existing company's record
+* Show a list of people who work at a given company
+* Show the details for a specific person
+* Edit a person's record
+* Delete a person record
+* Create a new person, associating them to an existing company
+* Bonus: make the site responsive
