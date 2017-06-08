@@ -30,14 +30,6 @@ npm run build
 
 * do you work within the testCode directory
 
-## submit your work
-submit your testCode directory, and anything else you've built as a zip file back to your recruiter. If running your solution will require the grader to do anything beyond dropping your testCode directory into a running node server, let us know.
-
-## questions/troubleshooting setup issues
-Ping you're recruiter and they'll help you get it working
-
-
-
 # Functionality Implemented
 *Show a list of companies
 *Show the details/full record of an existing company
