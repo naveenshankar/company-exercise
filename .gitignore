@@ -1,0 +1,9 @@
+/swagger
+/node_modules
+/server/models
+/server/routes.js
+/server/npm-debug.log
+/testCode/public
+/data/db/*
+.DS_Store
+npm-debug.log
