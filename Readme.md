@@ -1,4 +1,3 @@
-# SigFig take home test instructions
 
 ## pre reqs
 Install brew, node, npm & mongo. On OSX the commands below should work.
